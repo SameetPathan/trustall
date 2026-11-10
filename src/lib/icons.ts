@@ -1,0 +1,47 @@
+/** A friendly picture for a product, guessed from its name. Purely decorative. */
+const ICONS: [RegExp, string][] = [
+  [/egg/i, "🥚"],
+  [/honey/i, "🍯"],
+  [/strawberr/i, "🍓"],
+  [/jam|jelly|marmalade|preserve/i, "🫙"],
+  [/sourdough|bread|loaf|baguette/i, "🍞"],
+  [/tomato/i, "🍅"],
+  [/zucchini|courgette|cucumber/i, "🥒"],
+  [/sunflower/i, "🌻"],
+  [/flower|bouquet|tulip|dahlia/i, "💐"],
+  [/apple/i, "🍎"],
+  [/pear/i, "🍐"],
+  [/peach|apricot|nectarine/i, "🍑"],
+  [/cherr/i, "🍒"],
+  [/berr/i, "🫐"],
+  [/lemon/i, "🍋"],
+  [/orange|citrus|clementine/i, "🍊"],
+  [/grape/i, "🍇"],
+  [/melon/i, "🍈"],
+  [/pumpkin|squash/i, "🎃"],
+  [/carrot/i, "🥕"],
+  [/potato/i, "🥔"],
+  [/corn|maize/i, "🌽"],
+  [/pepper|chil/i, "🌶️"],
+  [/garlic/i, "🧄"],
+  [/onion/i, "🧅"],
+  [/lettuce|salad|kale|spinach|greens|herb|basil/i, "🥬"],
+  [/mushroom/i, "🍄"],
+  [/milk/i, "🥛"],
+  [/cheese/i, "🧀"],
+  [/butter/i, "🧈"],
+  [/cookie|biscuit/i, "🍪"],
+  [/brownie|cake|muffin|cupcake/i, "🧁"],
+  [/pie|tart/i, "🥧"],
+  [/coffee/i, "☕"],
+  [/juice|cider|lemonade/i, "🧃"],
+  [/snack|chip|crisp/i, "🥨"],
+  [/chocolate|candy|sweet/i, "🍫"],
+  [/firewood|wood/i, "🪵"],
+  [/plant|seedling/i, "🪴"],
+];
+
+export function productIcon(name: string): string {
+  for (const [pattern, icon] of ICONS) if (pattern.test(name)) return icon;
+  return "🧺";
+}

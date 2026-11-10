@@ -1,0 +1,40 @@
+# Render blueprint: one web service plus Postgres.
+# After the first deploy, register <service URL>/api/paypal/webhook in the PayPal
+# developer dashboard and paste the webhook id into PAYPAL_WEBHOOK_ID.
+databases:
+  - name: trustall-db
+    plan: free
+
+services:
+  - type: web
+    name: trustall
+    runtime: node
+    plan: free
+    buildCommand: npm ci --include=dev && npm run build
+    startCommand: npm run db:setup && npm start
+    healthCheckPath: /api/health
+    envVars:
+      - key: NODE_VERSION
+        value: "22"
+      - key: DATABASE_URL
+        fromDatabase:
+          name: trustall-db
+          property: connectionString
+      - key: SESSION_SECRET
+        generateValue: true
+      - key: AI_MODEL
+        value: claude-sonnet-5-5
+      - key: PAYPAL_CLIENT_ID
+        sync: false
+      - key: PAYPAL_CLIENT_SECRET
+        sync: false
+      - key: NEXT_PUBLIC_PAYPAL_CLIENT_ID
+        sync: false
+      - key: PAYPAL_WEBHOOK_ID
+        sync: false
+      - key: AI_API_KEY
+        sync: false
+      - key: APP_URL
+        sync: false
+      - key: OWNER_DEMO_PASSCODE
+        sync: false
