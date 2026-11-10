@@ -18,8 +18,8 @@ Built for the PayPal AI Hackathon. **Sandbox only: no real money moves.**
 
    | | |
    | --- | --- |
-   | Sandbox buyer email | `sb-rt47i53751326@personal.example.com` |
-   | Sandbox buyer password | `Kz60_4UC` |
+   | Sandbox buyer email | `trustall@personal.com` |
+   | Sandbox buyer password | `Trust@1234` |
    | Owner passcode (stall `meadow-lane`) | `meadowlane` |
 
 4. Open **Owner view**, sign in, and watch the sale appear in the ledger.
