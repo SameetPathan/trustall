@@ -6,7 +6,7 @@ A customer at an unattended farm stand scans a QR code, photographs what they ar
 
 Built for the PayPal AI Hackathon. **Sandbox only: no real money moves.**
 
-- Live demo: `https://YOUR-SERVICE.onrender.com` (fill in after deploying)
+- Live demo: <https://trustall.onrender.com>
 - Demo stall: `/s/meadow-lane`
 - Owner view: `/owner` (stall address `meadow-lane`, passcode below)
 
@@ -18,9 +18,9 @@ Built for the PayPal AI Hackathon. **Sandbox only: no real money moves.**
 
    | | |
    | --- | --- |
-   | Sandbox buyer email | `FILL-IN@personal.example.com` |
-   | Sandbox buyer password | `FILL-IN` |
-   | Owner passcode (stall `meadow-lane`) | `meadowlane` (or whatever `OWNER_DEMO_PASSCODE` is set to) |
+   | Sandbox buyer email | `sb-rt47i53751326@personal.example.com` |
+   | Sandbox buyer password | `Kz60_4UC` |
+   | Owner passcode (stall `meadow-lane`) | `meadowlane` |
 
 4. Open **Owner view**, sign in, and watch the sale appear in the ledger.
 5. In the **Assistant** tab, type "Refund the last honey sale", press **Confirm**, and watch the ledger flip to Refunded.
