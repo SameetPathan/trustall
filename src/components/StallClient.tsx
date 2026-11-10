@@ -95,6 +95,7 @@ export default function StallClient(props: {
     setNotice(null);
     setPreview(null);
     setStep("looking");
+    window.scrollTo({ top: 0 }); // the progress card sits at the top; sample baskets are further down
     try {
       const image = await toJpegDataUrl(source);
       setPreview(image);
@@ -192,7 +193,7 @@ export default function StallClient(props: {
   if (step === "receipt" && receipt) {
     const colors = ["#ffc531", "#ffffff", "#7be0ad", "#ff8fa3"];
     return (
-      <main className="relative min-h-[calc(100dvh-2.25rem)] overflow-hidden bg-gradient-to-b from-leaf to-leaf-deep px-5 pb-12 pt-10 text-paper">
+      <main className="customer-success relative min-h-[calc(100dvh-5.75rem)] overflow-hidden px-5 pb-12 pt-10">
         <div className="confetti pointer-events-none absolute inset-0" aria-hidden>
           {Array.from({ length: 26 }, (_, i) => (
             <i
@@ -207,12 +208,12 @@ export default function StallClient(props: {
           ))}
         </div>
         <div className="relative mx-auto max-w-md">
-          <svg viewBox="0 0 72 72" className="h-24 w-24" aria-hidden>
-            <circle cx="36" cy="36" r="30" fill="none" stroke="#fff" strokeWidth="5" strokeLinecap="round" className="check-circle" transform="rotate(-90 36 36)" />
-            <path d="M22 37l10 10 19-21" fill="none" stroke="#ffc531" strokeWidth="6" strokeLinecap="round" strokeLinejoin="round" className="check-mark" />
+          <svg viewBox="0 0 72 72" className="success-icon h-20 w-20" aria-hidden>
+            <circle cx="36" cy="36" r="30" fill="none" stroke="currentColor" strokeWidth="5" strokeLinecap="round" className="check-circle" transform="rotate(-90 36 36)" />
+            <path d="M22 37l10 10 19-21" fill="none" stroke="currentColor" strokeWidth="6" strokeLinecap="round" strokeLinejoin="round" className="check-mark" />
           </svg>
           <h1 className="mt-5 text-5xl">Paid. Thank you!</h1>
-          <p className="mt-3 text-lg text-paper/90">{receipt.thankYou}</p>
+          <p className="success-message mt-3 text-lg">{receipt.thankYou}</p>
           <div className="slip rise mt-8 p-5 text-ink" style={{ "--i": 3 } as React.CSSProperties}>
             <p className="display text-xl">{stall.name}</p>
             <ul className="mt-4 space-y-2.5">
@@ -249,14 +250,14 @@ export default function StallClient(props: {
 
   if (step === "invoiced" && invoice) {
     return (
-      <main className="hero min-h-[calc(100dvh-2.25rem)] px-5 pb-12 pt-12">
+      <main className="customer-success min-h-[calc(100dvh-5.75rem)] px-5 pb-12 pt-10">
         <div className="mx-auto max-w-md">
           <p className="text-6xl" aria-hidden>
             📬
           </p>
           <h1 className="mt-5 text-5xl">Invoice sent</h1>
-          <p className="mt-4 text-lg text-chalk/90">
-            PayPal has emailed an invoice for <strong className="text-yolk">{fmt(invoice.totalCents)}</strong> to{" "}
+          <p className="success-message mt-4 text-lg">
+            PayPal has emailed an invoice for <strong className="text-ink">{fmt(invoice.totalCents)}</strong> to{" "}
             <strong className="break-all">{invoice.email}</strong>. Take your things, and pay it when you are home.
           </p>
           <button onClick={reset} className="btn-sign mt-8 w-full">
@@ -270,96 +271,95 @@ export default function StallClient(props: {
   // ---------- start ----------
   if (step === "start" || step === "looking") {
     return (
-      <main className="pb-14">
-        <header className="hero rounded-b-[2rem] px-5 pb-9 pt-8">
-          <div className="mx-auto max-w-md">
-            <p className="pill bg-white/12 text-chalk">Honesty stall</p>
-            <h1 className="mt-3 text-4xl">{stall.name}</h1>
-            {step === "start" && <p className="mt-3 text-lg text-chalk/85">Take one photo of everything you are taking. We add it up for you.</p>}
-          </div>
+      <main className="customer-page">
+        <header className="customer-heading">
+          <p className="overline"><span className="status-dot" /> YOUR NEIGHBOURHOOD HONESTY STALL</p>
+          <h1>{stall.name}</h1>
+          <p>A little something fresh. A simple way to pay.</p>
         </header>
+        <ol className="customer-steps" aria-label="Checkout progress">
+          <li aria-current="step"><span>01</span> Pick & snap</li>
+          <li><span>02</span> Check your basket</li>
+          <li><span>03</span> Pay & enjoy</li>
+        </ol>
 
-        <div className="mx-auto max-w-md px-5">
-          {step === "looking" ? (
-            <div className="card -mt-5 overflow-hidden" role="status" aria-live="polite">
-              <div className="scan aspect-[4/3] bg-board-2">
-                {preview && (
-                  // eslint-disable-next-line @next/next/no-img-element
-                  <img src={preview} alt="" className="h-full w-full object-cover" />
-                )}
-              </div>
-              <div className="p-6 text-center">
-                <p className="display text-2xl">Looking at your basket</p>
-                <p className="dots mt-3 text-yolk-deep" aria-hidden>
-                  <i />
-                  <i />
-                  <i />
-                </p>
-                <p className="mt-2 text-moss">This takes a few seconds.</p>
-              </div>
-            </div>
-          ) : (
-            <>
-              {cameraInput}
-              <button className="btn-sign pulse -mt-7 w-full !min-h-[4.5rem] text-xl" onClick={() => fileInput.current?.click()}>
-                <svg viewBox="0 0 24 24" className="h-7 w-7" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
-                  <path d="M4 8h3l2-3h6l2 3h3a1 1 0 0 1 1 1v9a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V9a1 1 0 0 1 1-1z" />
-                  <circle cx="12" cy="13" r="3.5" />
-                </svg>
-                Snap what you&apos;re taking
-              </button>
-              <button
-                className="mt-4 w-full py-2 font-bold text-moss underline decoration-2 underline-offset-4"
-                onClick={() => {
-                  setPickerOpen(true);
-                  setStep("cart");
-                }}
-              >
-                Pick from the price list instead
-              </button>
-
-              {props.showSamples && (
-                <section className="mt-8">
-                  <h2 className="text-2xl">No stall in front of you?</h2>
-                  <p className="mt-1 text-moss">Tap a sample basket to try it.</p>
-                  <div className="mt-4 grid grid-cols-3 gap-3">
-                    {SAMPLE_BASKETS.map((s, i) => (
-                      <button
-                        key={s.src}
-                        onClick={() => void look(s.src)}
-                        className="card rise overflow-hidden text-left transition-transform hover:-translate-y-1"
-                        style={{ "--i": i } as React.CSSProperties}
-                        aria-label={`Use sample basket ${i + 1}: ${s.label}`}
-                      >
-                        {/* eslint-disable-next-line @next/next/no-img-element */}
-                        <img src={s.src} alt="" className="aspect-square w-full object-cover" />
-                        <span className="block px-2.5 py-2 text-sm font-bold">Basket {i + 1}</span>
-                      </button>
-                    ))}
-                  </div>
-                </section>
-              )}
-
-              <section className="mt-10">
-                <h2 className="text-2xl">Today&apos;s prices</h2>
-                <ul className="card mt-4 divide-y divide-line px-4">
-                  {catalog.map((p) => (
-                    <li key={p.id} className="flex items-center gap-3 py-3">
-                      <span className="icon-tile" aria-hidden>
-                        {productIcon(p.name)}
-                      </span>
-                      <span className="flex-1 leading-tight">
-                        <span className="font-bold">{p.name}</span>
-                        <span className="block text-sm text-moss">{p.unit}</span>
-                      </span>
-                      <span className="tabular font-bold">{fmt(p.priceCents)}</span>
-                    </li>
-                  ))}
-                </ul>
+        <div className="customer-layout">
+          <div className="customer-main">
+            {step === "looking" ? (
+              <section className="basket-scanning" role="status" aria-live="polite">
+                <div className="scan aspect-[4/3] bg-board-2">
+                  {preview && (
+                    // eslint-disable-next-line @next/next/no-img-element
+                    <img src={preview} alt="The basket being checked" className="h-full w-full object-cover" />
+                  )}
+                </div>
+                <div className="p-6 text-center">
+                  <p className="overline">Putting your basket together</p>
+                  <h2 className="mt-3 text-3xl">Looking at the good stuff.</h2>
+                  <p className="mt-3 text-sm text-moss">We’re matching your photo to this stall’s price list.</p>
+                  <p className="dots mt-4 text-moss" aria-hidden><i /><i /><i /></p>
+                </div>
               </section>
-            </>
-          )}
+            ) : (
+              <>
+                {cameraInput}
+                <section className="capture-panel">
+                  <div className="capture-topline"><span className="overline">Your basket starts here</span><span className="capture-badge">PHOTO CHECKOUT</span></div>
+                  <div className="camera-emblem" aria-hidden>
+                    <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                      <path d="M8 15h8l4-5h8l4 5h8a3 3 0 0 1 3 3v19a3 3 0 0 1-3 3H8a3 3 0 0 1-3-3V18a3 3 0 0 1 3-3Z" />
+                      <circle cx="24" cy="27" r="8" /><path d="M35 21h2" />
+                    </svg>
+                  </div>
+                  <h2>Picked something good?</h2>
+                  <p>Place everything together and take one photo.<br className="hidden sm:block" /> We’ll build your basket. You check it before paying.</p>
+                  <button className="btn-sign capture-button" onClick={() => fileInput.current?.click()}>
+                    Snap what you’re taking <span aria-hidden>↗</span>
+                  </button>
+                  <button className="manual-pick" onClick={() => { setPickerOpen(true); setStep("cart"); }}>
+                    Choose from the price list instead <span aria-hidden>→</span>
+                  </button>
+                  <p className="capture-note">No account needed · Pay with PayPal</p>
+                </section>
+
+                {props.showSamples && (
+                  <section className="sample-section">
+                    <div className="sample-heading"><div><p className="overline">Just looking around?</p><h2>Try a little taste.</h2></div><span>3 sample baskets</span></div>
+                    <p className="sample-description">Tap a basket to see how photo checkout works.</p>
+                    <div className="customer-samples">
+                      {SAMPLE_BASKETS.map((sample, index) => (
+                        <button key={sample.src} onClick={() => void look(sample.src)} className="customer-sample" aria-label={`Use sample basket ${index + 1}: ${sample.label}`}>
+                          <div className="sample-photo">
+                            {/* eslint-disable-next-line @next/next/no-img-element */}
+                            <img src={sample.src} alt="" loading="lazy" />
+                            <span aria-hidden>↗</span>
+                          </div>
+                          <span className="sample-title">{["Breakfast essentials", "The pantry favourites", "From the garden"][index]}</span>
+                          <span className="sample-contents">{sample.label}</span>
+                        </button>
+                      ))}
+                    </div>
+                  </section>
+                )}
+              </>
+            )}
+          </div>
+
+          <aside className="stall-price-panel" aria-labelledby="prices-title">
+            <div className="price-panel-heading"><p className="overline">Fresh from the stall</p><h2 id="prices-title">Today’s price list</h2><p>Good things, fairly priced.</p></div>
+            <ul className="stall-price-list">
+              {catalog.map((product) => (
+                <li key={product.id}>
+                  <span className="product-symbol" aria-hidden>{productIcon(product.name)}</span>
+                  <div className="price-product"><span>{product.name}</span><small>{product.unit}</small></div>
+                  <strong>{fmt(product.priceCents)}</strong>
+                </li>
+              ))}
+            </ul>
+            <div className="price-panel-footer"><span aria-hidden>♡</span><p>Thanks for keeping the honesty stall going. Every little purchase makes a difference.</p></div>
+          </aside>
         </div>
+        <p className="customer-signoff">Picked with care. Paid on trust.</p>
       </main>
     );
   }
@@ -367,15 +367,17 @@ export default function StallClient(props: {
   // ---------- cart ----------
   const notInCart = catalog.filter((p) => !lines.some((l) => l.productId === p.id));
   return (
-    <main className="mx-auto max-w-md px-5 pb-16 pt-6">
-      <div className="flex items-center gap-3">
+    <main className="checkout-page">
+      <button className="checkout-return" onClick={reset}>← Back to the stall</button>
+      <ol className="customer-steps" aria-label="Checkout progress"><li><span>✓</span> Pick &amp; snap</li><li aria-current="step"><span>02</span> Check your basket</li><li><span>03</span> Pay &amp; enjoy</li></ol>
+      <div className="checkout-heading flex items-center gap-3">
         {preview && (
           // eslint-disable-next-line @next/next/no-img-element
-          <img src={preview} alt="Your photo" className="h-14 w-14 rounded-2xl object-cover shadow-[var(--shadow-card)]" />
+          <img src={preview} alt="Your photo" className="snapshot h-16 w-16 !border-4" style={{ "--tilt": "-5deg" } as React.CSSProperties} />
         )}
         <div>
           <p className="text-sm font-bold text-moss">{stall.name}</p>
-          <h1 className="text-3xl">Is this what you took?</h1>
+          <h1 className="text-4xl">Is this what you took?</h1>
         </div>
       </div>
 
@@ -409,7 +411,7 @@ export default function StallClient(props: {
                 <div className="mt-3 flex items-center justify-between gap-3">
                   <div className="flex items-center rounded-full bg-whitewash p-1">
                     <button
-                      className="grid h-10 w-10 place-items-center rounded-full bg-paper text-xl font-bold shadow-sm"
+                      className="quantity-button grid h-11 w-11 place-items-center rounded-full bg-paper text-xl font-bold shadow-sm"
                       aria-label={l.quantity === 1 ? `Remove ${p.name}` : `One fewer ${p.name}`}
                       onClick={() => setQty(l.productId, l.quantity - 1)}
                     >
@@ -419,7 +421,7 @@ export default function StallClient(props: {
                       {l.quantity}
                     </span>
                     <button
-                      className="grid h-10 w-10 place-items-center rounded-full bg-ink text-xl font-bold text-paper disabled:opacity-30"
+                      className="quantity-button grid h-11 w-11 place-items-center rounded-full bg-ink text-xl font-bold text-paper disabled:opacity-30"
                       aria-label={`One more ${p.name}`}
                       disabled={l.quantity >= MAX_QTY}
                       onClick={() => setQty(l.productId, l.quantity + 1)}
@@ -464,7 +466,7 @@ export default function StallClient(props: {
                         <span className="font-bold">{p.name}</span>
                         <span className="block text-sm text-moss">{p.unit}</span>
                       </span>
-                      <span className="tabular font-bold">{fmt(p.priceCents)}</span>
+                      <span className="tag">{fmt(p.priceCents)}</span>
                       <span className="grid h-8 w-8 place-items-center rounded-full bg-yolk font-bold" aria-hidden>
                         +
                       </span>

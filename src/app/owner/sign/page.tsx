@@ -31,11 +31,11 @@ export default async function SignPage() {
         </div>
       </div>
 
-      <section className="card mt-8 p-8 text-center print:mt-0 print:shadow-none">
+      <section className="card qr-poster mt-8 p-5 sm:p-8 text-center print:mt-0 print:shadow-none">
         <p className="font-bold text-moss">Pay here with PayPal</p>
         <p className="display mt-2 text-4xl">{stall.name}</p>
         <div className="mx-auto mt-6 w-64 max-w-full" dangerouslySetInnerHTML={{ __html: svg }} />
-        <p className="display mt-6 text-5xl">Scan. Snap. Pay.</p>
+        <p className="display mt-6 text-4xl sm:text-5xl">Scan. Snap. Pay.</p>
         <ol className="mx-auto mt-5 max-w-xs list-decimal space-y-1 pl-5 text-left text-lg">
           <li>Scan the code with your phone camera.</li>
           <li>Take a photo of what you are taking.</li>

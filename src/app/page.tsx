@@ -1,160 +1,100 @@
 import Link from "next/link";
-import PhoneDemo from "@/components/PhoneDemo";
+import { SAMPLE_BASKETS, SAMPLE_SHELVES } from "@/lib/samples";
 
-const STEPS = [
-  { icon: "📷", title: "Scan the sign", body: "A printed QR code on the table opens the stall. No app, no account." },
-  { icon: "🧺", title: "Snap your basket", body: "One photo of what you are taking. AI matches it to the stall's price list." },
-  { icon: "✅", title: "Check and pay", body: "Fix anything the photo got wrong, then pay with PayPal or ask for an invoice." },
+const steps = [
+  ["01", "Scan the sign", "Your stall opens straight from its QR code. No download or account needed."],
+  ["02", "Snap your basket", "One photo becomes an itemised cart. Check the quantities and make it yours."],
+  ["03", "Pay & be on your way", "Pay with PayPal, or request an invoice. Your receipt is ready when you are."],
 ];
 
 export default function Home() {
   return (
-    <main>
-      <section className="hero overflow-hidden">
-        <div className="mx-auto grid max-w-6xl items-center gap-14 px-6 pb-20 pt-10 lg:grid-cols-[1.1fr_0.9fr] lg:pb-24 lg:pt-16">
-          <div>
-            <p className="display text-2xl">
-              Trust<span className="text-yolk">all</span>
-            </p>
-            <h1 className="mt-10 text-[2.9rem] leading-[0.98] sm:text-7xl">The honesty box that takes PayPal.</h1>
-            <p className="mt-6 max-w-xl text-lg text-chalk/85 sm:text-xl">
-              Customers at an unattended stall scan, snap a photo of what they took, and pay. Owners see every
-              sale, and find out how honest the day was.
-            </p>
-            <div className="mt-9 flex flex-col gap-3 sm:flex-row">
-              <Link href="/s/meadow-lane" className="btn-sign">
-                Try the demo stall
-              </Link>
-              <Link href="/owner" className="btn-ghost-dark">
-                Open the owner view
-              </Link>
-            </div>
-            <dl className="mt-12 grid max-w-lg grid-cols-3 gap-4 border-t border-white/15 pt-6">
-              {[
-                ["1 photo", "builds the whole cart"],
-                ["0 apps", "nothing to install"],
-                ["30 sec", "from photo to paid"],
-              ].map(([big, small]) => (
-                <div key={big}>
-                  <dt className="display text-2xl text-yolk sm:text-3xl">{big}</dt>
-                  <dd className="mt-1 text-sm text-chalk/75">{small}</dd>
-                </div>
-              ))}
-            </dl>
+    <main className="home-page">
+      <section className="market-hero">
+        <div className="market-intro">
+          <p className="overline"><span className="status-dot" /> A little trust goes a long way</p>
+          <h1>Fresh picks.<br />Fair pay.<br /><span>All on trust.</span></h1>
+          <p className="hero-description">The little honesty stall, with a smarter way to pay. Pick something good, snap a photo, and let Trustall take care of the checkout.</p>
+          <div className="hero-actions">
+            <Link href="/s/meadow-lane" className="btn-sign">Explore the demo stall <span aria-hidden>↗</span></Link>
+            <Link href="/owner/setup" className="text-link">I run a stall <span aria-hidden>→</span></Link>
           </div>
-          <PhoneDemo />
+          <p className="hero-footnote">No cash to carry. No app to download.</p>
+        </div>
+        <div className="market-visual">
+          <div className="photo-label"><span className="status-dot" /> THE HONESTY STALL</div>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img className="market-photo" src={SAMPLE_SHELVES.OPEN} alt="Fresh bread, eggs, honey and vegetables on the shelves of a farm stall" fetchPriority="high" />
+          <div className="market-receipt">
+            <div className="receipt-check" aria-hidden>✓</div>
+            <div><p className="receipt-title">Picked. Snapped. Paid.</p><p className="receipt-detail">Your everyday checkout, simplified.</p></div>
+          </div>
+          <p className="photo-caption">Good things grow when we trust each other.</p>
         </div>
       </section>
 
-      <section className="mx-auto max-w-6xl px-6 py-16">
-        <h2 className="max-w-xl text-4xl sm:text-5xl">Three steps at the table</h2>
-        <ol className="mt-9 grid gap-5 md:grid-cols-3">
-          {STEPS.map((s, i) => (
-            <li key={s.title} className="card p-6">
-              <div className="flex items-center justify-between">
-                <span className="icon-tile !h-14 !w-14 !text-3xl">{s.icon}</span>
-                <span className="display text-5xl text-line">{i + 1}</span>
-              </div>
-              <h3 className="display mt-5 text-2xl">{s.title}</h3>
-              <p className="mt-2 text-moss">{s.body}</p>
-            </li>
+      <section className="how-section" aria-labelledby="how-title">
+        <div className="section-heading"><p className="overline">A small ritual. A simpler checkout.</p><h2 id="how-title">Three steps. Then enjoy.</h2></div>
+        <ol className="steps-grid">
+          {steps.map(([number, title, description]) => (
+            <li key={number}><span className="step-number">{number}</span><div><h3>{title}</h3><p>{description}</p></div></li>
           ))}
         </ol>
       </section>
 
-      <section className="mx-auto max-w-6xl px-6 pb-16">
-        <h2 className="max-w-2xl text-4xl sm:text-5xl">What the owner gets</h2>
-        <div className="mt-9 grid gap-5 lg:grid-cols-3">
-          {/* honesty score */}
-          <div className="card-dark p-7 text-chalk lg:row-span-2">
-            <p className="font-bold text-yolk">Honesty score</p>
-            <p className="display mt-3 text-[5.5rem] leading-none">88%</p>
-            <p className="mt-4 text-chalk/85">
-              Photograph the shelf in the morning and the evening. Trustall counts the stock and compares what
-              left the shelf with what was paid for.
-            </p>
-            <div className="mt-6 space-y-2.5 text-sm">
-              {[
-                ["🥚 Eggs", "6 gone", "5 paid"],
-                ["🍯 Honey", "2 gone", "2 paid"],
-                ["🍓 Jam", "1 gone", "1 paid"],
-              ].map(([name, gone, paid]) => (
-                <p key={name} className="flex justify-between rounded-xl bg-white/10 px-3.5 py-2.5">
-                  <span className="font-bold">{name}</span>
-                  <span className="text-chalk/80">
-                    {gone}, {paid}
-                  </span>
-                </p>
-              ))}
-            </div>
-            <p className="mt-5 text-sm text-chalk/60">Example figures.</p>
-          </div>
-
-          {/* ledger */}
-          <div className="card p-7 lg:col-span-2">
-            <p className="font-bold text-leaf-deep">Live ledger</p>
-            <h3 className="display mt-2 text-3xl">Every sale, item by item</h3>
-            <p className="mt-2 max-w-lg text-moss">A sale shows as paid only when PayPal confirms it, by capture or a verified webhook.</p>
-            <div className="mt-5 grid gap-2.5 sm:grid-cols-2">
-              {[
-                ["Paid", "bg-leaf text-paper", "2 × Eggs, 1 × Honey", "$18.00"],
-                ["Invoiced", "bg-yolk text-ink", "1 × Sourdough loaf", "$7.00"],
-              ].map(([status, tone, items, total]) => (
-                <div key={status} className="rounded-2xl bg-whitewash p-4">
-                  <div className="flex items-center justify-between">
-                    <span className={`pill ${tone}`}>{status}</span>
-                    <span className="display tabular text-xl">{total}</span>
-                  </div>
-                  <p className="mt-2 text-sm text-moss">{items}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {/* assistant */}
-          <div className="card p-7">
-            <p className="font-bold text-leaf-deep">Assistant</p>
-            <h3 className="display mt-2 text-2xl">Acts through PayPal, after you confirm</h3>
-            <div className="mt-4 space-y-2 text-sm">
-              <p className="ml-6 rounded-2xl rounded-br-md bg-board px-3.5 py-2.5 text-chalk">Refund the last honey sale.</p>
-              <div className="card-note mr-4 p-3.5">
-                <p className="font-bold">Refund $8.00 for 1 × Wildflower honey</p>
-                <p className="mt-2 flex gap-2">
-                  <span className="pill bg-yolk">Confirm</span>
-                  <span className="pill bg-paper">Cancel</span>
-                </p>
-              </div>
-            </div>
-          </div>
-
-          {/* setup */}
-          <div className="card p-7">
-            <p className="font-bold text-leaf-deep">Setup</p>
-            <h3 className="display mt-2 text-2xl">A stall from one photo</h3>
-            <p className="mt-2 text-moss">Photograph your price board, check the drafted list, print the QR sign.</p>
-            <Link href="/owner/setup" className="btn-plain mt-5">
-              Set up your own stall
-            </Link>
-          </div>
+      <section className="basket-section" aria-labelledby="basket-title">
+        <div className="section-heading section-heading-row">
+          <div><p className="overline">A taste of Trustall</p><h2 id="basket-title">What’s in your basket?</h2></div>
+          <p>Try a sample from Meadow Lane.<br />A real flow, with sandbox payments.</p>
         </div>
-      </section>
-
-      <section className="mx-auto max-w-6xl px-6 pb-20">
-        <div className="card grid gap-8 p-8 md:grid-cols-3">
-          {[
-            ["🤖", "AI reads photos", "Vision turns a basket, a price board or a shelf into structured data. It never sets a price."],
-            ["🧮", "Code does the arithmetic", "Totals come from the stall's own price list on the server, in whole cents."],
-            ["🔒", "PayPal is the truth", "Orders, invoices, refunds and verified webhooks decide whether money moved."],
-          ].map(([icon, title, body]) => (
-            <div key={title}>
-              <span className="icon-tile">{icon}</span>
-              <h3 className="display mt-4 text-xl">{title}</h3>
-              <p className="mt-1.5 text-moss">{body}</p>
-            </div>
+        <div className="basket-grid">
+          {SAMPLE_BASKETS.map((basket, index) => (
+            <Link href="/s/meadow-lane" key={basket.src} className="basket-card">
+              <div className="basket-image">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img src={basket.src} alt={basket.label} loading="lazy" />
+                <span className="basket-index">BASKET 0{index + 1}</span>
+                <span className="basket-arrow" aria-hidden>↗</span>
+              </div>
+              <div className="basket-description"><h3>{["The breakfast basket", "A little of everything", "Fresh from the garden"][index]}</h3><span>{["$18", "$17", "$22"][index]}</span></div>
+              <p>{basket.label}</p>
+            </Link>
           ))}
         </div>
-        <p className="mt-10 text-center text-sm text-moss">Built for the PayPal AI Hackathon. Everything here runs in the PayPal sandbox.</p>
       </section>
+
+      <section className="owner-feature" aria-labelledby="owner-title">
+        <div className="owner-feature-copy">
+          <p className="overline">For the hands behind the harvest</p>
+          <h2 id="owner-title">Your stall.<br />A clearer picture.</h2>
+          <p>See what sold, keep an eye on the shelf, and get a hand with the everyday admin. More time for the things you grow.</p>
+          <Link href="/owner" className="btn-sign">Open the owner view <span aria-hidden>↗</span></Link>
+          <Link href="/owner/setup" className="owner-setup-link">New here? Set up your stall →</Link>
+        </div>
+        <div className="owner-preview">
+          <div className="preview-heading"><span>MEADOW LANE</span><span className="preview-demo">Example day</span></div>
+          <div className="preview-score"><div><p>Honesty score</p><strong>88<span>%</span></strong></div><div className="score-ring" aria-label="Example honesty score 88 percent">88%</div></div>
+          <p className="preview-explanation">What left the shelf, compared with what was paid for.</p>
+          <div className="preview-sale"><span>Eggs · 2 dozen</span><span className="paid-status">Paid</span><strong>$10.00</strong></div>
+          <div className="preview-sale"><span>Wildflower honey</span><span className="paid-status">Paid</span><strong>$8.00</strong></div>
+          <p className="preview-footer">Live ledger · Shelf checks · Owner assistant</p>
+        </div>
+      </section>
+
+      <section className="how-section" aria-labelledby="trust-title">
+        <div className="section-heading"><p className="overline">Built so nobody has to take it on faith</p><h2 id="trust-title">AI reads. Code counts. PayPal confirms.</h2></div>
+        <ol className="steps-grid">
+          {[
+            ["AI", "AI reads the photo", "A vision model matches the basket, the price board or the shelf to the stall\u2019s own list. It never sets a price."],
+            ["=", "Code does the arithmetic", "Every total is worked out on the server from the stall\u2019s price list, in whole cents."],
+            ["\u2713", "PayPal is the truth", "Orders, invoices, refunds and verified webhooks decide whether money moved. The assistant acts only after the owner confirms."],
+          ].map(([mark, title, description]) => (
+            <li key={title}><span className="step-number">{mark}</span><div><h3>{title}</h3><p>{description}</p></div></li>
+          ))}
+        </ol>
+      </section>
+
+      <footer className="home-footer"><Link href="/" className="wordmark">Trustall<span aria-hidden>✳</span></Link><p>A modern way to keep the honesty stall honest.</p><span>Built for the PayPal AI Hackathon · Sandbox demo</span></footer>
     </main>
   );
 }

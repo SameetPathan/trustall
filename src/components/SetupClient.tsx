@@ -121,7 +121,7 @@ export default function SetupClient() {
   );
 
   return (
-    <main className="mx-auto max-w-xl px-5 pb-16 pt-8">
+    <main className="owner-entry mx-auto max-w-xl px-5 pb-16 pt-8">
       <p>
         <Link href="/" className="font-bold underline decoration-2 underline-offset-4">
           Trustall

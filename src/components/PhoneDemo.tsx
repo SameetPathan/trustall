@@ -18,15 +18,11 @@ export default function PhoneDemo() {
   }, []);
 
   return (
-    <div className="relative mx-auto w-[17rem]" aria-hidden>
-      <span className="float absolute -left-10 top-10 text-5xl" style={{ "--i": 0, "--r": "-12deg" } as React.CSSProperties}>🥚</span>
-      <span className="float absolute -right-9 top-24 text-5xl" style={{ "--i": 1, "--r": "10deg" } as React.CSSProperties}>🍯</span>
-      <span className="float absolute -left-8 bottom-16 text-5xl" style={{ "--i": 2, "--r": "8deg" } as React.CSSProperties}>🍓</span>
-      <span className="float absolute -right-10 bottom-28 text-5xl" style={{ "--i": 3, "--r": "-8deg" } as React.CSSProperties}>🌻</span>
+    <div className="relative mx-auto w-full max-w-[16.5rem]" aria-hidden>
 
       <div className="relative rounded-[2.6rem] bg-[#07130e] p-2.5 shadow-[0_40px_80px_-20px_rgba(0,0,0,0.7)] ring-1 ring-white/15">
         <div className="absolute left-1/2 top-4 z-10 h-5 w-20 -translate-x-1/2 rounded-full bg-[#07130e]" />
-        <div className="relative h-[31rem] overflow-hidden rounded-[2rem] bg-whitewash text-ink">
+        <div className="relative h-[23rem] sm:h-[26rem] overflow-hidden rounded-[2rem] bg-whitewash text-ink">
           {/* 1. Scan */}
           <div className={`absolute inset-0 flex flex-col items-center justify-center gap-5 bg-board px-6 text-chalk transition-opacity duration-500 ${scene === 0 ? "opacity-100" : "opacity-0"}`}>
             <div className="scan rounded-3xl bg-white p-4">
@@ -87,7 +83,7 @@ export default function PhoneDemo() {
         {SCENES.map((label, i) => (
           <span
             key={label}
-            className={`rounded-full px-3 py-1 text-sm font-bold transition-colors duration-300 ${scene === i ? "bg-yolk text-ink" : "bg-white/10 text-chalk/70"}`}
+            className={`rounded-full px-3 py-1 text-sm font-bold transition-colors duration-300 ${scene === i ? "bg-yolk text-ink" : "bg-ink/80 text-chalk"}`}
           >
             {label}
           </span>

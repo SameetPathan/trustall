@@ -33,9 +33,9 @@ interface Row {
 
 const STATUS_LABEL: Record<string, string> = { PAID: "Paid", INVOICED: "Invoiced", REFUNDED: "Refunded" };
 const STATUS_TONE: Record<string, string> = {
-  Paid: "bg-leaf/12 text-leaf-deep",
-  Invoiced: "bg-yolk/30 text-ink",
-  Refunded: "bg-beet/10 text-beet",
+  Paid: "bg-leaf text-white",
+  Invoiced: "bg-yolk text-ink",
+  Refunded: "bg-tomato text-white",
 };
 
 function toRow(s: LedgerSale): Row {
@@ -55,17 +55,17 @@ function toRow(s: LedgerSale): Row {
 }
 
 const theme = themeQuartz.withParams({
-  accentColor: "#17a05d",
-  backgroundColor: "#ffffff",
-  foregroundColor: "#10201a",
-  headerBackgroundColor: "#f6f8f3",
-  headerTextColor: "#5b6f63",
+  accentColor: "#1f8f52",
+  backgroundColor: "#fffdf7",
+  foregroundColor: "#211a15",
+  headerBackgroundColor: "#fff3dc",
+  headerTextColor: "#75695b",
   headerFontWeight: 700,
   fontFamily: "inherit",
   fontSize: 15,
-  borderColor: "#e3eae2",
-  rowHoverColor: "#f6f8f3",
-  wrapperBorderRadius: 20,
+  borderColor: "#eedfc2",
+  rowHoverColor: "#fff6e3",
+  wrapperBorderRadius: 28,
   spacing: 9,
 });
 
@@ -176,7 +176,7 @@ export default function SalesGrid(props: { sales: LedgerSale[]; currency: string
           xKey: "product",
           yKey: "revenue",
           yName: "Paid revenue",
-          fill: "#17a05d",
+          fill: "#ec4d30",
           cornerRadius: 6,
         },
       ],

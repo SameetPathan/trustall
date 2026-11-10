@@ -102,22 +102,23 @@ export default function OwnerDashboard(props: {
   const TAB_ICON: Record<TabId, string> = { ledger: "🧾", shelf: "📦", agent: "💬" };
 
   return (
-    <div className="pb-20">
-      <header className="hero rounded-b-[2rem] px-5 pb-16 pt-7">
-        <div className="mx-auto flex max-w-3xl flex-wrap items-end justify-between gap-4">
+    <div className="pb-28 sm:pb-20">
+      <header className="workspace-header px-5 pb-6 pt-9">
+        <div className="mx-auto flex max-w-5xl flex-wrap items-end justify-between gap-4">
           <div>
-            <p className="pill bg-white/12 text-chalk">Owner view</p>
-            <h1 className="mt-3 text-4xl">{props.stall.name}</h1>
+            <p className="sticker !bg-leaf !text-white">Owner view</p>
+            <h1 className="mt-5 text-[2.6rem] sm:text-5xl">{props.stall.name}</h1>
           </div>
-          <nav className="flex flex-wrap gap-2 text-sm font-bold">
-            <Link className="rounded-full bg-white/12 px-3.5 py-2 hover:bg-white/20" href={`/s/${props.stall.slug}`}>
+          <nav aria-label="Owner navigation" className="flex flex-wrap gap-2 text-sm">
+            <Link className="btn-plain !min-h-11 !px-3.5" href="/">← Back to home</Link>
+            <Link className="btn-plain !min-h-11 !px-3.5" href={`/s/${props.stall.slug}`}>
               Customer page
             </Link>
-            <Link className="rounded-full bg-white/12 px-3.5 py-2 hover:bg-white/20" href="/owner/sign">
+            <Link className="btn-plain !min-h-11 !px-3.5" href="/owner/sign">
               QR sign
             </Link>
             <button
-              className="rounded-full bg-white/12 px-3.5 py-2 hover:bg-white/20"
+              className="btn-plain !min-h-11 !px-3.5"
               onClick={async () => {
                 await postJson("/api/owner/logout", {});
                 window.location.href = "/";
@@ -129,8 +130,18 @@ export default function OwnerDashboard(props: {
         </div>
       </header>
 
-      <div className="mx-auto max-w-3xl px-4">
-        <div role="tablist" aria-label="Owner sections" className="card -mt-8 flex gap-1 p-1.5">
+      {/* phones: an app-style bar at the bottom. Larger screens: tabs at the top. */}
+      <div role="tablist" aria-label="Owner sections" className="bottom-nav sm:hidden">
+        {TABS.map((t) => (
+          <button key={t.id} role="tab" aria-selected={tab === t.id} aria-controls={`panel-${t.id}`} onClick={() => { setTab(t.id); window.scrollTo({ top: 0 }); }}>
+            <span aria-hidden>{TAB_ICON[t.id]}</span>
+            <span>{t.label}</span>
+          </button>
+        ))}
+      </div>
+
+      <div className="mx-auto max-w-5xl px-4">
+        <div role="tablist" aria-label="Owner sections" className="card hidden gap-1 p-1.5 sm:flex">
           {TABS.map((t) => (
             <button
               key={t.id}
@@ -139,8 +150,8 @@ export default function OwnerDashboard(props: {
               aria-selected={tab === t.id}
               aria-controls={`panel-${t.id}`}
               onClick={() => setTab(t.id)}
-              className={`flex min-h-12 flex-1 items-center justify-center gap-2 rounded-2xl px-3 font-bold transition-colors ${
-                tab === t.id ? "bg-ink text-paper" : "text-moss hover:bg-whitewash"
+              className={`flex min-h-12 flex-1 items-center justify-center gap-2 rounded-[1.3rem] px-3 font-extrabold transition-colors ${
+                tab === t.id ? "bg-ink text-chalk" : "text-moss hover:bg-whitewash"
               }`}
             >
               <span aria-hidden>{TAB_ICON[t.id]}</span>
@@ -165,7 +176,7 @@ export default function OwnerDashboard(props: {
           </p>
         )}
 
-        <div role="tabpanel" id={`panel-${tab}`} aria-labelledby={`tab-${tab}`} className="pt-6">
+        <div role="tabpanel" id={`panel-${tab}`} aria-label={TABS.find((t) => t.id === tab)?.label} className="pt-2 sm:pt-6">
           {tab === "ledger" && <LedgerTab data={data} currency={props.stall.currency} slug={props.stall.slug} aiReady={props.setup.ai} />}
           {tab === "shelf" && (
             <ShelfTab data={data} catalog={props.catalog} currency={props.stall.currency} isDemo={props.isDemo} onSaved={refresh} />

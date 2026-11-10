@@ -13,9 +13,9 @@ const SalesGrid = dynamic(() => import("./SalesGrid"), {
 });
 
 const STATUS: Record<LedgerSale["status"], { label: string; className: string }> = {
-  PAID: { label: "Paid", className: "bg-leaf/12 text-leaf-deep" },
-  INVOICED: { label: "Invoiced", className: "bg-yolk/30 text-ink" },
-  REFUNDED: { label: "Refunded", className: "bg-beet/10 text-beet" },
+  PAID: { label: "Paid", className: "bg-leaf text-white" },
+  INVOICED: { label: "Invoiced", className: "bg-yolk text-ink" },
+  REFUNDED: { label: "Refunded", className: "bg-tomato text-white" },
 };
 
 function startOfToday(): Date {

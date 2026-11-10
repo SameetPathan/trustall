@@ -5,10 +5,8 @@ export const metadata = { title: "Owner sign-in: Trustall" };
 
 export default function LoginPage() {
   return (
-    <main className="mx-auto max-w-md px-5 pb-16 pt-12">
-      <p className="text-5xl" aria-hidden>
-        🔑
-      </p>
+    <main className="owner-entry mx-auto max-w-md px-5 pb-16 pt-12">
+      <p className="eyebrow">The stall office</p>
       <h1 className="mt-4 text-5xl">Owner sign-in</h1>
       <p className="mt-3 text-moss">
         Customers never sign in. This is for the person who runs the stall. The demo stall&apos;s passcode is in
